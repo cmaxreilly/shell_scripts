@@ -1,0 +1,41 @@
+#!/bin/bash
+
+main (){
+	if [ $# -eq 1 ] ; then
+		if [ $1 = "?" ] ; then
+			ls ~/Downloads/
+		elif [ $1 = "-rm" ] ; then
+			rm -r ~/Downloads/* 	
+		elif [[ $1 == "-r" ]] ; then
+			mv_to_downloads $2	 
+		else
+			mv_to_directory $1		
+		fi
+	else
+		usage	
+	fi
+}
+
+# Function that prints usage message.
+usage (){
+	message="Usage: load -[OPTIONS] [DIRECTORY NAME]
+Options:
+? = prints downloads folders
+-rm = removes all downloads
+-r = moves directory to downloads
+"
+	printf "$message"
+	return 1
+}
+
+
+mv_to_directory() {
+	mv ~/Downloads/** $1;
+
+	cd $1;
+}
+
+mv_to_downloads () {
+	mv $1 ~/Downloads/;
+}
+main "$@" 
